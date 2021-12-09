@@ -12,3 +12,7 @@ docker run -d --network site --name nginx -p 8080:80 site-nginx
 
 docker rm -f php-fpm nginx
 docker network rm site
+
+---docker compose---
+docker-compose up -d
+docker-compose down
