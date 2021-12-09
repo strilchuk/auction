@@ -1,0 +1,14 @@
+---apache container---
+docker build --tag=site-apache site
+docker run -d --name app -p 8080:80 site-apache
+docker stop app && docker rm app
+
+---nginx container---
+docker build --file=site/docker/nginx/Dockerfile --tag=site-nginx site
+docker build --file=site/docker/php-fpm/Dockerfile --tag=site-php-fpm site
+docker network create site
+docker run -d --network site --name php-fpm site-php-fpm
+docker run -d --network site --name nginx -p 8080:80 site-nginx
+
+docker rm -f php-fpm nginx
+docker network rm site
