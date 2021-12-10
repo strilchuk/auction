@@ -4,8 +4,8 @@ docker run -d --name app -p 8080:80 site-apache
 docker stop app && docker rm app
 
 ---nginx container---
-docker build --file=site/docker/nginx/Dockerfile --tag=site-nginx site
-docker build --file=site/docker/php-fpm/Dockerfile --tag=site-php-fpm site
+docker build --file=site/docker/production/nginx/Dockerfile --tag=site-nginx .
+docker build --file=site/docker/production/php-fpm/Dockerfile --tag=site-php-fpm .
 docker network create site
 docker run -d --network site --name php-fpm site-php-fpm
 docker run -d --network site --name nginx -p 8080:80 site-nginx
@@ -16,3 +16,5 @@ docker network rm site
 ---docker compose---
 docker-compose up -d
 docker-compose down
+
+docker-compose -f docker-compose-production.yml up -d
